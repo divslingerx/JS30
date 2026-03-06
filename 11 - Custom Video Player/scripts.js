@@ -1,4 +1,3 @@
-// get elements
 const player = document.querySelector('.player');
 const video = player.querySelector('.viewer');
 const progress = player.querySelector('.progress');
@@ -7,37 +6,32 @@ const toggle = player.querySelector('.toggle');
 const skipButtons = player.querySelectorAll('[data-skip]');
 const ranges = player.querySelectorAll('.player__slider');
 
-//funcs
-function togglePlay() {
-  const method = video.paused ? 'play' : 'pause';
-  video[method]();
-}
+const togglePlay = () => {
+  video.paused ? video.play() : video.pause();
+};
 
-function updateButton() {
-  const icon = this.paused ? '►' : '❚ ❚';
-  console.log(icon);
-  toggle.textContent = icon;
-}
+const updateButton = () => {
+  toggle.textContent = video.paused ? '\u25B6' : '\u275A \u275A';
+};
 
-function skip() {
- video.currentTime += parseFloat(this.dataset.skip);
-}
+const skip = (e) => {
+  video.currentTime += parseFloat(e.currentTarget.dataset.skip);
+};
 
-function handleRangeUpdate() {
-  video[this.name] = this.value;
-}
+const handleRangeUpdate = (e) => {
+  video[e.currentTarget.name] = e.currentTarget.value;
+};
 
-function handleProgress() {
+const handleProgress = () => {
   const percent = (video.currentTime / video.duration) * 100;
   progressBar.style.flexBasis = `${percent}%`;
-}
+};
 
-function scrub(e) {
+const scrub = (e) => {
   const scrubTime = (e.offsetX / progress.offsetWidth) * video.duration;
   video.currentTime = scrubTime;
-}
+};
 
-//hookup
 video.addEventListener('click', togglePlay);
 video.addEventListener('play', updateButton);
 video.addEventListener('pause', updateButton);
